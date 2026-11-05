@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200">
+  <rect width="100%" height="100%" fill="#f4f0e8"/>
+  <g transform="rotate(-4 450 600)">
+  <text x="40" y="60" font-family="monospace" font-size="28" fill="#222">DESIPACK CO — RATE CARD</text>
+  <text x="40" y="100" font-size="18" fill="#444">Photocopy — Nov 2026</text>
+  <text x="40" y="140" font-size="16" fill="#111">CORR-BEV-5PLY-01 38/box</text>
+<text x="40" y="178" font-size="16" fill="#111">CORR-ECOM-3PLY-02 16/box</text>
+<text x="40" y="216" font-size="16" fill="#111">CORR-RSC-5PLY-03 28/box</text>
+<text x="40" y="254" font-size="16" fill="#111">CORR-DISP-3PLY-04 22/box</text>
+<text x="40" y="292" font-size="16" fill="#111">CORR-HEAVY-7PLY-05 166/box</text>
+<text x="40" y="330" font-size="16" fill="#111">CORR-PART-5PLY-06 24/box</text>
+<text x="40" y="368" font-size="16" fill="#111">CORR-PIZZA-3PLY-07 9/box</text>
+<text x="40" y="406" font-size="16" fill="#111">CORR-MAIL-3PLY-08 6/box</text>
+<text x="40" y="444" font-size="16" fill="#111">CORR-BULK-5PLY-09 100/box</text>
+<text x="40" y="482" font-size="16" fill="#111">CORR-TEA-3PLY-10 3/box</text>
+<text x="40" y="520" font-size="16" fill="#111">CORR-WINE-5PLY-11 52/box</text>
+<text x="40" y="558" font-size="16" fill="#111">CORR-PHARMA-5PLY-12 39/box</text>
+<text x="40" y="596" font-size="16" fill="#111">CORR-RET-3PLY-13 19/box</text>
+<text x="40" y="634" font-size="16" fill="#111">CORR-APPL-5PLY-14 129/box</text>
+<text x="40" y="672" font-size="16" fill="#111">CORR-EGG-3PLY-15 10/box</text>
+<text x="40" y="710" font-size="16" fill="#111">CORR-FROZ-5PLY-16 33/box</text>
+<text x="40" y="748" font-size="16" fill="#111">CORR-BOOK-3PLY-17 5/box</text>
+<text x="40" y="786" font-size="16" fill="#111">CORR-FURN-7PLY-18 69/box</text>
+<text x="40" y="824" font-size="16" fill="#111">CORR-CABLE-5PLY-19 187/box</text>
+<text x="40" y="862" font-size="16" fill="#111">CORR-SHOE-3PLY-20 13/box</text>
+<text x="40" y="900" font-size="16" fill="#111">CORR-SNACK-3PLY-21 15/box</text>
+<text x="40" y="938" font-size="16" fill="#111">CORR-BEV-5PLY-22 26/box</text>
+<text x="40" y="976" font-size="16" fill="#111">CORR-IND-5PLY-23 30/box</text>
+<text x="40" y="1014" font-size="16" fill="#111">CORR-ECO-3PLY-24 6/box</text>
+<text x="40" y="1052" font-size="16" fill="#111">CORR-LAM-5PLY-25 46/box</text>
+<text x="40" y="1090" font-size="16" fill="#111">CORR-TUBE-3PLY-26 2/box</text>
+<text x="40" y="1128" font-size="16" fill="#111">CORR-HAZ-5PLY-27 176/box</text>
+<text x="40" y="1166" font-size="16" fill="#111">CORR-CLUB-3PLY-28 34/box</text>
+  <text x="40" y="1180" font-size="14" fill="#666">Audit score 72 — moisture report pending</text>
+  </g>
+</svg>

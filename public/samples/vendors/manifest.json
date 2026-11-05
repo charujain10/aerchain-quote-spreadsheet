@@ -1,0 +1,32 @@
+[
+  {
+    "id": "packright",
+    "file": "1-packright-off-template.xlsx",
+    "name": "PackRight Industries",
+    "currency": "INR"
+  },
+  {
+    "id": "global",
+    "file": "2-global-carton-letterhead.pdf",
+    "name": "Global Carton LLC",
+    "currency": "USD"
+  },
+  {
+    "id": "southern",
+    "file": "3-southern-board-prose.docx",
+    "name": "Southern Board Mills",
+    "currency": "INR"
+  },
+  {
+    "id": "desipack",
+    "file": "4-desipack-rate-card.svg",
+    "name": "DesiPack Co",
+    "currency": "INR"
+  },
+  {
+    "id": "quickpack",
+    "file": "5-quickpack-email.txt",
+    "name": "QuickPack",
+    "currency": "INR"
+  }
+]

@@ -1,0 +1,371 @@
+# Aerchain
+
+Aerchain is a Software Development company. Aerchain is an AI-powered procurement and autonomous sourcing company that simplifies sourcing, negotiations, and compliance, ensuring faster cycles and cost savings. Aerchain employs 123 people (+78.3% YoY, +54 people) and has an annual revenue of $500K, founded in 2019. Headquartered in Bengaluru, Karnataka, India, with presence in United States.
+
+## About
+
+Aerchain builds an AI-Native Spend Operating System for enterprise procurement worldwide - it doesn’t exist anywhere else yet. Our vision is to free procurement from the grunt work, sharpen the decisions that matter, and give teams the foresight to proactively capture savings and opportunities.
+
+## Company Details
+- Industry: Software Development
+- Type: Privately held
+- Headquarters: Bengaluru, India
+- Founded Year: 2019
+- Homepage: aerchain.io
+- Aliases: Aerchain.io, aerchain
+- LinkedIn: linkedin.com/company/aerchain-io
+- Linkedin Followers: 60,769
+- Emails: sales@aerchain.io
+- Phone: +91 95134 45106, +91888450707, 91-95134-45106
+
+## Financials
+- Annual Revenue: USD 500,000
+- Total Funding: USD 16,000,000
+  - Venture (2026-08-01)
+  - Series a (2026-03-01): USD 13.0M
+  - Unspecified (2023-01-01)
+  - Seed (2021-09-21): USD 3.0M
+  - Non equity assistance (2019-12-20)
+
+## Workforce
+- Employees: 123
+- Company Size: 51-200 employees
+  - Monthly Growth: +4.2%
+  - Yearly Growth: +78.3%
+- Key Executives:
+  - Harsha Kadimisetty: Co-founder & CEO
+  - Himavanth Jasti: Co-Founder and CTO
+  - Darshan Kadam: Account Director
+  - Priya M: Sales Director
+  - Nishant Chaubey: Associate Director
+- Breakdown:
+  - By Country: India: 110 (89%)
+  - By Department: Technical: 29 (24%), Consulting: 26 (21%), Sales: 13 (11%), Product: 9 (7%), Marketing: 7 (6%), Customer Service: 6 (5%), Hr: 6 (5%), Design: 4 (3%), General Management: 4 (3%), Other Department: 4 (3%) (+2 more)
+  - By Seniority: Specialist: 65 (53%), Other Management: 15 (12%), Manager: 11 (9%), Senior: 9 (7%), Head: 4 (3%), Director: 3 (2%), Founder: 2 (2%), Intern: 2 (2%)
+- Active job postings: 6
+- Salary ranges (20 of 30 roles):
+  - Team Lead: median 5,776,249 INR per year
+  - Sales Manager: median 3,982,580 INR per year
+  - Product Manager: median 3,229,728 INR per year
+  - Software Developer: median 2,495,254.68 INR per year
+  - Senior Software Engineer: median 2,250,000 INR per year
+  - Software Development Engineer II: median 2,198,694.3 INR per year
+  - Sales: median 1,821,712.69 INR per year
+  - CEO: median 1,792,386 INR per year
+  - Enterprise Account Executive: median 1,605,088 INR per year
+  - Implementation Consultant: median 1,601,256 INR per year
+  - Account Executive: median 1,500,000 INR per year
+  - Accounts Executive: median 1,500,000 INR per year
+  - Software Engineer: median 1,304,607.79 INR per year
+  - Software Development Engineer I: median 1,289,284.88 INR per year
+  - UX Designer: median 1,078,091.68 INR per year
+  - Customer Success Manager: median 1,000,000 INR per year
+  - Assistant Manager Human Resources: median 898,393.5 INR per year
+  - Content Writer: median 745,189.65 INR per year
+  - Customer Support Specialist: median 459,087.58 INR per year
+  - Graphic Designer: median 194,205.65 INR per year
+- Talent Sources: MountBlue Technologies (13), SupplyBasics (6), Keka HR (4), Llama (3), KeepWorks Technologies Pvt. Ltd. (3), HighRadius (3), GEP Worldwide (3), techolution (2), BrowserStack (2), Accenture (2)
+- Alumni Go To: mPokket (2), Scotiabank (2), Rippling (2), Logik.ai, from ServiceNow (2), Freshworks (2), Bottomline (2), Boom Games (2), ANS Commerce (2), Profesh (1), AIM (1)
+
+## Products & Technology
+- Tech Stack (showing 50 of 87): ably, accenture, adobe, browserstack, canva, docker, driven data, figma, freshchat, freshdesk, gartner, gcc, google sheets, google workspace, grunt, helm, hubspot, hubspot crm, hugging face, infosys, jira, kubernetes, linkedin, microservices, microsoft, microsoft office, mlflow, mlops, mysql, openai, postgresql, postman, prince2, prototype, python, pytorch, q4, react, sales navigator, sql, syspro, tds, tensorflow, trello, typescript, webflow, whatsapp, youtube, numpy, 1password
+
+## Web presence
+
+- Twitter: twitter.com/aerchain_io
+- Facebook: facebook.com/aerchain
+- Instagram: instagram.com/aerchain_io
+- YouTube: youtube.com/@aerchain2019
+- Crunchbase: crunchbase.com/organization/aerchain
+- Web traffic:
+  - Monthly visits: 22,258
+  - Global rank: 794,823
+  - Bounce rate: 31.0%
+  - Pages per visit: 7.5
+  - Average visit duration: 581s
+
+## Reviews & Ratings
+- Employer Rating: 3.6/5.0 (68 reviews)
+  - Breakdown: Work-Life: 3.5, Compensation: 3.4, Culture: 3.5, Career: 3.7
+
+## Categories
+
+aerchain, ai-powered procurement, ai-powered procurement and autonomous sourcing, artificial intelligence (ai), automation, autonomous sourcing, compliance, contract management, enterprise software, enterprise-software, intake-to-award, jobs_and_career/jobs_and_employment, logistics, negotiation automation, negotiations, platform, procure to pay, procure to pay software, procurement, procurement software, rfp management, rfp/rfq automation, software, sourcing, spend analysis, strategic sourcing, supplier evaluation, tail spend management, technology
+
+## Competitors
+
+aavenir, xeeva, volody, paladin, haus, granicus, fielo
+
+## Recent News
+- [2026-08-27]
+  - [Infosys Innovation Fund invests in Bengaluru AI procurement startup Aerchain](https://www.newsbytesapp.com/news/business/infosys-innovation-fund-invests-in-bengaluru-ai-procurement-startup-aerchain/tldr)
+  - [Infosys Innovation Fund Invests in AI Startup Aerchain \| Whalesbook](https://www.whalesbook.com/news/English/technology/Infosys-Innovation-Fund-Invests-in-AI-Startup-Aerchain/6a908a06a703e4a8160746ff)
+
+## Social
+
+### Linkedin
+
+- [2026-10-27 · Posted · 18 reactions, 1 comment] [In the past few weeks, we’ve unveiled #SpendOS in Amsterdam and...](https://www.linkedin.com/posts/aerchain-io_spendos-feelslikemagic-spendos-activity-7520725779064995840-XBvl)
+  > In the past few weeks, we’ve unveiled #SpendOS in Amsterdam and Kuala Lumpur. But nothing quite compares to showing it in the city where it all began: Bengaluru.
+  >
+  > Right now, at the 20th Procurement Excellence Summit & Awards 2026, the city’s procurement leaders are joining us for a Procurement Circle on home ground. They’re challenging us, questioning us, and leaning in as SpendOS runs on screen.
+  >
+  > And we’re answering the way we always do: live and unfiltered.
+  >
+  > It feels good to be home. 🏠
+  >
+  > #FeelsLikeMagic #SpendOS #Aerchain #NammaBengaluru
+  >
+  > UBS Forums Pvt. Ltd. | Harsha Kadimisetty | Gaurav Guha | Darshan Kadam | Amit Sahu | Harshit Manaktala | Suket Seth | Priya M
+
+- [2026-10-27 · Posted · 38 reactions, 1 comment] ["The more autonomous procurement becomes, the more human it gets."...](https://www.linkedin.com/posts/aerchain-io_feelslikemagic-spendos-agenticprocurement-activity-7520804522022154240-sejr)
+  > "The more autonomous procurement becomes, the more human it gets."
+  >
+  > That was Gaurav Guha’s case on today’s panel, “Can Procurement Truly Become Autonomous? The Readiness Debate,” at the 20th Procurement Excellence Summit & Awards 2026.
+  >
+  > For years, the grunt work has quietly kept procurement’s best minds away from what they’re best at. Let AI carry that weight, and people get to do what no machine can: build supplier relationships, and own the judgement.
+  >
+  > Autonomous when it can be. Human where it should be. 🤝
+  >
+  > #FeelsLikeMagic #SpendOS #AgenticProcurement #Aerchain
+  >
+  > UBS Forums Pvt. Ltd. | Harsha Kadimisetty | Darshan Kadam | Amit Sahu | Harshit Manaktala | Suket Seth | Priya M
+
+- [2026-10-27 · Posted · 13 reactions, 1 comment] [Let’s be honest. You’ve probably heard “AI will transform...](https://www.linkedin.com/posts/aerchain-io_feelslikemagic-spendos-agenticprocurement-activity-7520759234041602048-opPU)
+  > Let’s be honest. You’ve probably heard “AI will transform procurement” more times than you can count this year.
+  >
+  > But how often does that pitch account for what it’s really like here in APAC? The layered policies, fragmented supplier ecosystems, the way work actually gets done?
+  >
+  > An agentic AI solution is only as good as its understanding of the enterprise it has to survive in. And that understanding is earned by transforming alongside APAC procurement and finance leaders.
+  >
+  > It’s exactly what Darshan Kadam, our Principal Advisor for AI Procurement Strategy, is bringing to the stage right now at the 20th Procurement Excellence Summit & Awards 2026, cutting through the ambiguity around three questions:
+  >
+  > What can AI deliver here?
+  > Will it survive our realities?
+  > Where’s the value?
+  >
+  > #FeelsLikeMagic #SpendOS #AgenticProcurement #Aerchain
+  >
+  > UBS Forums Pvt. Ltd. | Harsha Kadimisetty | Gaurav Guha | Amit Sahu | Harshit Manaktala | Suket Seth | Priya M
+
+- [2026-10-23 · Posted · 21 reactions, 1 comment] [Bengaluru, meet SpendOS. ✨ We’re proud to be the Agentic AI...](https://www.linkedin.com/posts/aerchain-io_bengaluru-meet-spendos-were-proud-to-activity-7519327479870730241-tN8n)
+  > Bengaluru, meet SpendOS. ✨
+  >
+  > We’re proud to be the Agentic AI Innovation Partner at the 20th Edition Procurement Excellence Summit & Awards 2026 by UBS Forums Pvt. Ltd.
+  >
+  > Stop by to meet the Aerchain team, see SpendOS in action, and experience a new way for procurement to think, decide, and act.
+  >
+  > 🗓️ Tuesday, 27 October 2026
+  > 📍 Taj MG Road, Bengaluru
+  >
+  > Namma Bengaluru, sigona! 👋
+  >
+  > Harsha Kadimisetty | Gaurav Guha | Animesh Bajpai | Harshit Manaktala | Amit Sahu
+
+- [2026-10-21 · Posted · 30 reactions] [You can tell when a room gets it. At the CPO Summit & Awards...](https://www.linkedin.com/posts/aerchain-io_spendos-feelslikemagic-spendos-activity-7518530927384289280-356s)
+  > You can tell when a room gets it.
+  >
+  > At the CPO Summit & Awards Malaysia 2026, Darshan Kadam took the stage to show how #SpendOS is redefining the way procurement thinks, decides, and acts.
+  >
+  > Nods. Thumbs up. And that quiet moment when everyone realizes, “Yes, this is exactly the problem.”
+  >
+  > The message hits home for anyone who’s lived it: you can’t reinvent procurement by bolting AI onto what’s already broken. It takes a new operating model, where AI drives execution and humans lead with judgment.
+  >
+  > Thank you, Kuala Lumpur, for the energy and the conversations.
+  > This is just the beginning. ✨
+  >
+  > 3novex Global | Amit Sahu | Priya M | Harshit Manaktala
+  >
+  > #FeelsLikeMagic #SpendOS #CPOSummitMalaysia #Aerchain
+
+- [2026-10-20 · Posted · 35 reactions, 1 comment] [On this auspicious day, we honor the tools of our trade. At...](https://www.linkedin.com/posts/aerchain-io_spendos-happydussehra-procurement-activity-7518183758097772544-eIcM)
+  > On this auspicious day, we honor the tools of our trade.
+  >
+  > At Aerchain, #spendOS is the tool we pour ourselves into, and today we celebrate it alongside every team that uses it to do remarkable work.
+  >
+  > Wishing you a joyful and victorious Dussehra. 🏹
+  >
+  > #HappyDussehra #Procurement #spendOS #Aerchain
+
+- [2026-10-19 · Posted · 33 reactions] [Tomorrow, Team Aerchain will be at the 9th Annual CPO Summit &...](https://www.linkedin.com/posts/aerchain-io_feelslikemagic-spendos-cposummitmalaysia-activity-7517808859176919040-lxmn)
+  > Tomorrow, Team Aerchain will be at the 9th Annual CPO Summit & Awards Malaysia 2026. Come meet us to talk about how procurement teams can bring spend into sharper focus and build toward an AI-native future.
+  >
+  > 🎤 SpendOS: Redefining How Procurement Thinks, Decides & Acts
+  > 📅 October 20–21, 2026
+  > 📍 Renaissance Kuala Lumpur
+  >
+  > Meet Team Aerchain:
+  > Darshan Kadam | Harshit Manaktala | Priya M | Amit Sahu
+  >
+  > Jumpa you in Kuala Lumpur! 👋
+  >
+  > #FeelsLikeMagic #SpendOS #CPOSummitMalaysia #Aerchain
+
+- [2026-10-16 · Posted · 26 reactions] [You can’t reinvent procurement by bolting AI onto what’s already...](https://www.linkedin.com/posts/aerchain-io_spendos-feelslikemagic-spendos-activity-7516791069955584000-qAdj)
+  > You can’t reinvent procurement by bolting AI onto what’s already broken.
+  >
+  > What procurement needs is a new operating model, where AI drives execution, and humans lead with judgment.
+  >
+  > That’s the vision we’re bringing to Kuala Lumpur next week as the Agentic AI Innovation Partner at the 9th Annual CPO Summit & Awards Malaysia 2026. 🚀
+  >
+  > Darshan Kadam, Principal Advisor for AI Procurement Strategy at Aerchain, takes the stage to show how #SpendOS is changing the way procurement thinks, decides, and acts.
+  >
+  > 🎤 SpendOS: Redefining How Procurement Thinks, Decides & Acts
+  > 📅 October 20–21, 2026
+  > 📍 Renaissance Kuala Lumpur
+  >
+  > See you there. ✨
+  >
+  > #FeelsLikeMagic #SpendOS #CPOSummitMalaysia #Aerchain
+  >
+  > Harshit Manaktala | Amit Sahu | Priya M
+
+- [2026-10-16 · Reshared · 21 reactions] [𝗠𝗼𝘀𝘁 𝗽𝗿𝗼𝗰𝘂𝗿𝗲𝗺𝗲𝗻𝘁 𝘁𝗲𝗮𝗺𝘀 𝘂𝘀𝗲 𝘁𝗲𝗰𝗵𝗻𝗼𝗹𝗼𝗴𝘆 𝘁𝗼 𝗱𝗼 𝘁𝗵𝗲 𝘀𝗮𝗺𝗲 𝘄𝗼𝗿𝗸 𝗳𝗮𝘀𝘁𝗲𝗿...](https://www.linkedin.com/posts/aerchain-io_activity-7516757567532969985-U3gV): 𝗠𝗼𝘀𝘁 𝗽𝗿𝗼𝗰𝘂𝗿𝗲𝗺𝗲𝗻𝘁 𝘁𝗲𝗮𝗺𝘀 𝘂𝘀𝗲 𝘁𝗲𝗰𝗵𝗻𝗼𝗹𝗼𝗴𝘆 𝘁𝗼 𝗱𝗼 𝘁𝗵𝗲 𝘀𝗮𝗺𝗲 𝘄𝗼𝗿𝗸 𝗳𝗮𝘀𝘁𝗲𝗿. 𝗙𝗲𝘄 𝗵𝗮𝘃𝗲 𝗰𝗵𝗮𝗻𝗴𝗲𝗱 𝗵𝗼𝘄 𝘁𝗵𝗲𝘆 𝘁𝗵𝗶𝗻𝗸, 𝗱𝗲𝗰𝗶𝗱𝗲, 𝗮𝗻𝗱 𝗮𝗰𝘁. 🤖 SpendOS is about that shift, from a function that processes requests to one tha...
+
+- [2026-10-15 · Posted · 43 reactions] [Two weeks since DPW Amsterdam, and we’re still riding the momentum...](https://www.linkedin.com/posts/aerchain-io_spendos-feelslikemagic-spendos-activity-7516355436963405824--OLw)
+  > Two weeks since DPW Amsterdam, and we’re still riding the momentum. ✨
+  >
+  > 200+ on-site meetings.
+  > 100+ post-event syncs.
+  > 50+ people in the room for the unveiling.
+  >
+  > DPW was two days of experience, education, and exchange, and for us, every conversation came back to one question: what happens when #SpendOS joins your team?
+  >
+  > We showed the answer live.
+  > Autonomous where it can be. Human when it should be.
+  >
+  > If you’re still figuring out what agentic procurement means for your organization, let’s keep the conversation going.
+  >
+  > Our team is flying out to enterprises across the globe to spend a day with their teams and deploy one of the nine SpendOS flows we unveiled at DPW. It’s built around how they actually work, and it goes live the same day.
+  >
+  > Ready to ride the SpendOS magic? Let’s talk: https://lnkd.in/dKta88R6
+  >
+  > #FeelsLikeMagic #SpendOS #DPWAmsterdam #Aerchain
+  >
+  > Harsha Kadimisetty | Gaurav Guha | Animesh Bajpai | Harshit Manaktala | Amit Sahu | Abhilash Govindu | Himavanth Jasti
+
+- [2026-10-15 · Posted · 26 reactions, 1 comment] [The SpendOS magic continues, and next stop is Kuala Lumpur! ✨ We’re...](https://www.linkedin.com/posts/aerchain-io_feelslikemagic-spendos-agenticai-activity-7516415943766593536-GzUQ)
+  > The SpendOS magic continues, and next stop is Kuala Lumpur! ✨
+  >
+  > We’re proud to be joining the 3novex Global 9th Annual CPO Summit & Awards Malaysia 2026 as the Agentic AI Innovation Partner.
+  >
+  > 🗓️ 20th & 21st October 2026
+  > 📍 Renaissance Kuala Lumpur Hotel & Convention Centre
+  >
+  > Witness a new era for agentic AI in procurement.
+  >
+  > Jumpa di KL! 👋
+  >
+  > #FeelsLikeMagic #SpendOS #AgenticAI #Procurement #AIinProcurement #CPOSummitMalaysia
+  >
+  > Darshan Kadam | Amit Sahu | Harshit Manaktala | Priya M
+
+- [2026-10-01 · Posted · 48 reactions] [And so it begins. Today, we're unveiling SpendOS to the procurement...](https://www.linkedin.com/posts/aerchain-io_feelslikemagic-spendos-dpwamsterdam-activity-7511348265330761728-Xczm)
+  > And so it begins.
+  >
+  > Today, we're unveiling SpendOS to the procurement world: an AI-native platform built for all enterprise spend.
+  >
+  > It's an operating system in the truest sense of the word. Letting technology run autonomously where the work is repetitive, exhaustive, and data-heavy, and keeps humans at the center where judgment, accountability, and strategic choice matter.
+  >
+  > And who better to kick off the moment than Chris Sawchuk, Principal & Global Practice Leader, The Hackett Group Inc.
+  >
+  > The future of procurement is autonomous where it can be and human where it must be. That is SpendOS. ✨
+  >
+  > #FeelsLikeMagic #SpendOS #DPWAmsterdam #Aerchain
+  >
+  > Harsha Kadimisetty | Himavanth Jasti | Chris Sawchuk | Michel Groenendaal | Animesh Bajpai | Gaurav Guha | Darshan Kadam | Amit Sahu | Harshit Manaktala | Abhilash Govindu
+
+- [2026-09-30 · Posted · 55 reactions, 1 comment] [Limitless in thinking. Mindful in execution. That's the principle...](https://www.linkedin.com/posts/aerchain-io_feelslikemagic-spendos-dpwamsterdam-activity-7511086236288221184-cFvo)
+  > Limitless in thinking. Mindful in execution.
+  >
+  > That's the principle behind SpendOS, and the vision Aerchain's CEO, Harsha Kadimisetty, shared at the DPW Amsterdam Startup Arena today.
+  >
+  > Limitless: thinking big about what autonomous procurement should be.
+  > Mindful: building it with real care for the teams who'll use it.
+  >
+  > Tomorrow, you see it live. ✨
+  >
+  > #FeelsLikeMagic #SpendOS #DPWAmsterdam #Aerchain
+  >
+  > Animesh Bajpai | Gaurav Guha | Darshan Kadam | Amit Sahu | Harshit Manaktala | Chris Sawchuk | Michel Groenendaal
+
+- [2026-09-30 · Posted · 48 reactions, 1 comment] [When was the last time you were truly excited by a demo...](https://www.linkedin.com/posts/aerchain-io_feelslikemagic-dpwamsterdam-aerchain-activity-7511038993887576064-u5b1)
+  > When was the last time you were truly excited by a demo?
+  > Edge-of-your-seat, snapping-photos, picturing-it-in-your-own-organization excited?
+  >
+  > Aerchain's AI-native SpendOS is running live at Booth S49. Someone just stopped mid-showcase and said, "Wow, this is unreal."
+  >
+  > At DPW Amsterdam? Come see for yourself.
+  > 📍Booth S49
+  >
+  > #FeelsLikeMagic #DPWAmsterdam #Aerchain
+  >
+  > Harsha Kadimisetty | Animesh Bajpai | Gaurav Guha | Harshit Manaktala | Amit Sahu | Darshan Kadam
+
+- [2026-09-30 · Posted · 43 reactions, 1 comment] [Now you see us. And now. And now. ✨ Day 1 at DPW Amsterdam is...](https://www.linkedin.com/posts/aerchain-io_feelslikemagic-dpwamsterdam-aerchain-activity-7511033308512878597-WzO7)
+  > Now you see us. And now. And now. ✨
+  >
+  > Day 1 at DPW Amsterdam is buzzing, and Aerchain is on every wall and in every hallway.
+  >
+  > But the best trick is still up our sleeve, and it drops tomorrow.
+  > Until then, pull up a chair at the Charge & Chill Lounge. Grab a bite and your Recharge Kit.
+  >
+  > #FeelsLikeMagic #DPWAmsterdam #Aerchain
+  >
+  > Harsha Kadimisetty | Animesh Bajpai | Gaurav Guha | Darshan Kadam | Amit Sahu | Harshit Manaktala
+
+- [2026-09-30 · Posted · 37 reactions, 2 comments] [The year's most wanted publication is back. ✨ And we brought it...](https://www.linkedin.com/posts/aerchain-io_feelslikemagic-dpwamsterdam-aerchain-activity-7511014903696998400-EuRK)
+  > The year's most wanted publication is back. ✨
+  > And we brought it straight to DPW Amsterdam.
+  >
+  > This edition of Voices honors the women leading the ProcureTech evolution, with hard-won perspectives on preparing procurement teams for the age of autonomous companies.
+  >
+  > Available in print. Copies are limited.
+  > Grab yours at the Charge & Chill Lounge by Aerchain.
+  >
+  > #FeelsLikeMagic #DPWAmsterdam #Aerchain
+  >
+  > Tanya W. | Zermeena K. | Olga Lokshin, MBA, MA | Ramie Virk | Salma Asharef | Bhawna Billa | Animesh Bajpai | Gaurav Guha | Darshan Kadam | Harsha Kadimisetty
+
+- [2026-09-29 · 45 reactions, 2 comments] Procurement doesn't need more tools. It needs a new operating model. 🎤 That was my message on the main stage at the 3rd Annual CPO Summit & Awards Philippines 2026 in Manila, speaking on "Building...
+
+- [2026-09-29 · 76 reactions, 1 comment] A little sneak peek from DPW Amsterdam before the big day! 👀 Aerchain Lounge is ready. Booth S49 is set. Swag is all lined up. And after weeks of planning, it feels great to finally see everything...
+
+- [2026-09-25 · Posted · 34 reactions] [Aerchain is everywhere at DPW Amsterdam this year. 🇳🇱 From Booth...](https://www.linkedin.com/posts/aerchain-io_aerchain-is-everywhere-at-dpw-amsterdam-this-activity-7509151171769675776-bUfv)
+  > Aerchain is everywhere at DPW Amsterdam this year. 🇳🇱
+  >
+  > From Booth S49 to our SpendOS launch and hands-on Agentic AI workshop, to the Charge & Chill Lounge by Aerchain, we’re bringing the full Aerchain experience across the DPW floor.
+  >
+  > 📍 𝐁𝐨𝐨𝐭𝐡 𝐒49
+  > Meet Team Aerchain and get a closer look at SpendOS.
+  >
+  > 🚀 𝐒𝐩𝐞𝐧𝐝𝐎𝐒 𝐋𝐚𝐮𝐧𝐜𝐡 + 𝐀𝐠𝐞𝐧𝐭𝐢𝐜 𝐀𝐈 𝐇𝐚𝐧𝐝𝐬-𝐨𝐧 𝐖𝐨𝐫𝐤𝐬𝐡𝐨𝐩
+  > See what AI-native procurement looks like in action.
+  >
+  > October 1, 2026 | 9:30 AM – 11:00 AM | Register here: https://lnkd.in/dsVxmPps
+  >
+  > ⚡ 𝐂𝐡𝐚𝐫𝐠𝐞 & 𝐂𝐡𝐢𝐥𝐥 𝐋𝐨𝐮𝐧𝐠𝐞 𝐒𝐩𝐨𝐧𝐬𝐨𝐫𝐞𝐝 𝐛𝐲 𝐀𝐞𝐫𝐜𝐡𝐚𝐢𝐧
+  > Stop by to recharge, reset, and catch some SpendOS magic along the way.
+  >
+  > See you at DPW Amsterdam.
+  >
+  > Harsha Kadimisetty | Matthias Gutzmann | Gaurav Guha | Darshan Kadam | Animesh Bajpai | Harshit Manaktala | Amit Sahu
+
+- [2026-09-25 · Posted · 32 reactions, 1 comment] [Procurement's next generation takes the stage on 1 October. Three...](https://www.linkedin.com/posts/aerchain-io_procurements-next-generation-takes-the-stage-activity-7509214010735575040-v9_l)
+  > Procurement's next generation takes the stage on 1 October.
+  >
+  > Three experts who've spent their careers inside procurement, on one stage, with something new to show.
+  >
+  > → Chris Sawchuk, Principal & Global Procurement Practice Leader, The Hackett Group Inc.
+  > → Gaurav Guha, Principal Advisor, AI Procurement Strategy, Aerchain
+  > → Harsha Kadimisetty, CEO, Aerchain
+  >
+  > And a few surprises we're not putting in the caption.
+  >
+  > 📅 1 October 2026 | 🕘 9:30 AM | 📍 Workshop Room
+  >
+  > Matthias Gutzmann | Gaurav Guha | Darshan Kadam | Animesh Bajpai | Harshit Manaktala | Amit Sahu
+
+## Locations
+- Headquarters: bengaluru, karnataka, india
+- Offices: bengaluru, karnātaka, india
