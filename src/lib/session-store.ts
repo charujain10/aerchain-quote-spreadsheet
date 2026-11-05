@@ -39,3 +39,28 @@ export const COPILOT_SEED_PROMPT =
 
 export const COPILOT_REPLY =
   "Draft RFx CORR-2026-118 is ready: 30 SKUs with specs, annual qty, target currency INR, and supplier questionnaire. You can edit lines or send to vendors.";
+
+export type CopilotTurn = { role: "buyer" | "copilot"; text: string };
+
+export const COPILOT_TURNS: CopilotTurn[] = [
+  { role: "buyer", text: COPILOT_SEED_PROMPT },
+  {
+    role: "copilot",
+    text: "Understood. Confirming: currency INR, Bangalore DC delivery, quality gate for award scenarios — ISO 9001, BRCGS food-grade liner, moisture test report, audit score ≥ 80. Standard terms 45-day payment?",
+  },
+  {
+    role: "buyer",
+    text: "Yes — INR, that quality gate, 45-day payment. Add annual qty estimates per SKU; we expect messy quotes back (Excel, PDF, email).",
+  },
+  {
+    role: "copilot",
+    text: `${COPILOT_REPLY} Payment 45 days. Questionnaire embedded in RFx pack. Ready to send to shortlisted vendors.`,
+  },
+];
+
+export const RFx_QUESTIONNAIRE_TERMS = [
+  "ISO 9001 certified",
+  "BRCGS food-grade liner (where applicable)",
+  "Moisture test report provided",
+  "Last audit score ≥ 80 for split-award eligibility",
+];

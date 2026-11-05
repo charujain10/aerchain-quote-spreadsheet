@@ -28,6 +28,8 @@ Open [http://127.0.0.1:4317](http://127.0.0.1:4317).
 | Prototype | This Next.js app |
 | Walkthrough script | [docs/WALKTHROUGH.md](docs/WALKTHROUGH.md) |
 | One-page decisions | [docs/DECISIONS.md](docs/DECISIONS.md) |
+| Submission guide + email template | [docs/SUBMISSION.md](docs/SUBMISSION.md) |
+| PPT / document outline | [docs/WHAT_WE_BUILT.md](docs/WHAT_WE_BUILT.md) |
 
 ## Optional LLM
 

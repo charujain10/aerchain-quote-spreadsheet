@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { DemoSession, NormalizedQuoteCell } from "@/lib/types";
 import { isQuestionnaireQualified } from "@/lib/types";
-import { COPILOT_REPLY, COPILOT_SEED_PROMPT } from "@/lib/session-store";
+import { COPILOT_TURNS, RFx_QUESTIONNAIRE_TERMS } from "@/lib/session-store";
 import { DEMO_QUESTIONS, type AnalystResult } from "@/lib/analyst/engine";
 
 type Step = "rfx" | "send" | "ingest" | "compare" | "analyst";
@@ -27,6 +27,7 @@ export default function DemoApp() {
   const [session, setSession] = useState<DemoSession | null>(null);
   const [loading, setLoading] = useState(false);
   const [copilotDone, setCopilotDone] = useState(false);
+  const [copilotTurn, setCopilotTurn] = useState(0);
   const [sent, setSent] = useState(false);
   const [analystLog, setAnalystLog] = useState<Array<{ q: string; results: AnalystResult[] }>>([]);
   const [question, setQuestion] = useState("");
@@ -70,6 +71,17 @@ export default function DemoApp() {
   };
 
   const vendorIds = useMemo(() => session?.vendors.map((v) => v.vendorId) ?? [], [session]);
+
+  const exportUrl = (type: string, qualified = true) =>
+    `/api/export?type=${type}${type === "split-award" ? `&qualified=${qualified}` : ""}`;
+
+  const sampleFiles: Record<string, string> = {
+    packright: "/samples/vendors/1-packright-off-template.xlsx",
+    global: "/samples/vendors/2-global-carton-letterhead.pdf",
+    southern: "/samples/vendors/3-southern-board-prose.docx",
+    desipack: "/samples/vendors/4-desipack-rate-card.svg",
+    quickpack: "/samples/vendors/5-quickpack-email.txt",
+  };
 
   const cellMap = useMemo(() => {
     const m = new Map<string, NormalizedQuoteCell>();
@@ -120,21 +132,45 @@ export default function DemoApp() {
           <section className="grid md:grid-cols-2 gap-6">
             <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-sm">
               <h2 className="font-semibold mb-3">AI co-pilot</h2>
-              <div className="space-y-3 text-sm">
-                <div className="rounded-lg bg-zinc-100 dark:bg-zinc-800 p-3">Buyer: {COPILOT_SEED_PROMPT}</div>
-                {copilotDone && (
-                  <div className="rounded-lg bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900 p-3">
-                    Co-pilot: {COPILOT_REPLY}
+              <div className="space-y-3 text-sm max-h-[360px] overflow-y-auto">
+                {COPILOT_TURNS.slice(0, copilotTurn + 1).map((t, i) => (
+                  <div
+                    key={i}
+                    className={`rounded-lg p-3 ${
+                      t.role === "buyer"
+                        ? "bg-zinc-100 dark:bg-zinc-800"
+                        : "bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900"
+                    }`}
+                  >
+                    <span className="text-xs font-semibold uppercase text-zinc-500">
+                      {t.role === "buyer" ? "Buyer" : "Co-pilot"}
+                    </span>
+                    <p className="mt-1">{t.text}</p>
                   </div>
-                )}
+                ))}
               </div>
-              <button
-                type="button"
-                className="mt-4 px-4 py-2 rounded-lg bg-teal-700 text-white text-sm font-medium hover:bg-teal-800"
-                onClick={() => setCopilotDone(true)}
-              >
-                Generate RFx draft
-              </button>
+              {!copilotDone ? (
+                <button
+                  type="button"
+                  className="mt-4 px-4 py-2 rounded-lg bg-teal-700 text-white text-sm font-medium hover:bg-teal-800"
+                  onClick={() => {
+                    if (copilotTurn < COPILOT_TURNS.length - 1) {
+                      setCopilotTurn((n) => n + 1);
+                    } else {
+                      setCopilotDone(true);
+                    }
+                  }}
+                >
+                  {copilotTurn < COPILOT_TURNS.length - 1 ? "Continue co-pilot" : "Generate RFx draft"}
+                </button>
+              ) : (
+                <p className="mt-4 text-sm text-teal-700 dark:text-teal-400">RFx draft locked — proceed to Send.</p>
+              )}
+              <ul className="mt-4 text-xs text-zinc-600 dark:text-zinc-400 list-disc pl-4 space-y-1">
+                {RFx_QUESTIONNAIRE_TERMS.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
             </div>
             <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-sm overflow-auto max-h-[520px]">
               <h2 className="font-semibold mb-3">
@@ -232,6 +268,13 @@ export default function DemoApp() {
                     <p className="mt-2">
                       Lines priced: {v.rows.length}/{session.lines.length}
                     </p>
+                    <a
+                      className="inline-block mt-2 text-teal-700 dark:text-teal-400 text-xs underline"
+                      href={sampleFiles[v.vendorId]}
+                      download
+                    >
+                      Download source attachment
+                    </a>
                     {v.warnings.length > 0 && (
                       <ul className="mt-2 text-amber-800 dark:text-amber-200 list-disc pl-4">
                         {v.warnings.map((w) => (
@@ -252,10 +295,31 @@ export default function DemoApp() {
               <p className="text-sm">Run ingest first.</p>
             ) : (
               <>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Side-by-side INR/box (normalized). Click provenance in analyst view. Flags: USD, per-100,
-                  kg conversion, missing lines.
-                </p>
+                <div className="flex flex-wrap gap-2 items-center justify-between">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                    Side-by-side INR/box (normalized). Questionnaire summary below. Export for Excel work.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <a
+                      className="text-xs px-3 py-1.5 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                      href={exportUrl("comparison")}
+                    >
+                      Export comparison CSV
+                    </a>
+                    <a
+                      className="text-xs px-3 py-1.5 rounded-lg border border-zinc-300 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                      href={exportUrl("questionnaire")}
+                    >
+                      Export questionnaire CSV
+                    </a>
+                    <a
+                      className="text-xs px-3 py-1.5 rounded-lg border border-teal-700 text-teal-800 dark:text-teal-300 hover:bg-teal-50 dark:hover:bg-teal-950/30"
+                      href={exportUrl("split-award", true)}
+                    >
+                      Export split award CSV
+                    </a>
+                  </div>
+                </div>
                 <div className="overflow-auto rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
                   <table className="min-w-[900px] w-full text-xs">
                     <thead>
@@ -299,6 +363,23 @@ export default function DemoApp() {
                       ))}
                     </tbody>
                   </table>
+                </div>
+                <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-4">
+                  <h3 className="font-semibold text-sm mb-3">Questionnaire & attachments (by vendor)</h3>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                    {session.vendors.map((v) => (
+                      <div key={v.vendorId} className="border border-zinc-200 dark:border-zinc-700 rounded-lg p-3">
+                        <p className="font-medium">{v.vendorName}</p>
+                        <p>
+                          ISO {v.questionnaire.iso9001 ? "Y" : "N"} · BRCGS {v.questionnaire.brcgs ? "Y" : "N"} ·
+                          Moisture {v.questionnaire.moistureReport ? "Y" : "N"} · Audit {v.questionnaire.auditScore}
+                        </p>
+                        <a className="text-teal-700 underline mt-1 inline-block" href={sampleFiles[v.vendorId]} download>
+                          {v.fileName}
+                        </a>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </>
             )}
@@ -356,6 +437,14 @@ export default function DemoApp() {
                   </li>
                 ))}
               </ul>
+              {session.vendors.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-700 space-y-2">
+                  <p className="text-xs font-semibold text-zinc-500">Exports</p>
+                  <a className="block text-xs text-teal-700 underline" href={exportUrl("split-award", true)}>
+                    Download split award (quality-filtered)
+                  </a>
+                </div>
+              )}
             </div>
           </section>
         )}
