@@ -30,6 +30,9 @@ Open [http://127.0.0.1:4317](http://127.0.0.1:4317).
 | One-page decisions | [docs/DECISIONS.md](docs/DECISIONS.md) |
 | Submission guide + email template | [docs/SUBMISSION.md](docs/SUBMISSION.md) |
 | PPT / document outline | [docs/WHAT_WE_BUILT.md](docs/WHAT_WE_BUILT.md) |
+| **HTML slides (present / Print → PDF)** | Open [public/Aerchain-Slides.html](public/Aerchain-Slides.html) in browser |
+| Marp slides (export PPTX/PDF) | [docs/Aerchain-Slides.marp.md](docs/Aerchain-Slides.marp.md) |
+| Copy-paste for Google Slides | [docs/SLIDES_COPY_PASTE.txt](docs/SLIDES_COPY_PASTE.txt) |
 
 ## Optional LLM
 
