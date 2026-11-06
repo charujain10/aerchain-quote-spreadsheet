@@ -1,23 +1,31 @@
 import { NextResponse } from "next/server";
-import { ingestVendorFile } from "@/lib/extract";
+import { getSession } from "@/lib/session-store";
+import { ingestVendor, type InputFile } from "@/lib/extract";
 import { rebuildNormalized } from "@/lib/normalize";
-import { getSession, updateSession } from "@/lib/session-store";
-import type { VendorMeta } from "@/lib/types";
+import { LlmUnavailableError } from "@/lib/llm";
+import { viewSession } from "@/lib/view";
 
+export const runtime = "nodejs";
+export const maxDuration = 300;
+
+/** Upload any vendor reply: first file is the response, the rest are attachments. */
 export async function POST(req: Request) {
   const form = await req.formData();
-  const file = form.get("file") as File | null;
-  const vendorId = String(form.get("vendorId") ?? "custom");
-  const vendorName = String(form.get("vendorName") ?? "Custom vendor");
-  const currency = (String(form.get("currency") ?? "INR") === "USD" ? "USD" : "INR") as "INR" | "USD";
-  if (!file) return NextResponse.json({ error: "file required" }, { status: 400 });
-
+  const uploads = form.getAll("files").filter((f): f is File => f instanceof File);
+  const vendorName = String(form.get("vendorName") ?? "").trim() || "Uploaded vendor";
+  if (uploads.length === 0) return NextResponse.json({ error: "at least one file required" }, { status: 400 });
   const session = getSession();
-  const buffer = Buffer.from(await file.arrayBuffer());
-  const meta: VendorMeta = { id: vendorId, name: vendorName, currency };
-  const vendor = await ingestVendorFile(meta, file.name, buffer, session.lines, session.lastYearInr);
-  const vendors = [...session.vendors.filter((v) => v.vendorId !== vendorId), vendor];
-  const next = { ...session, vendors, normalized: rebuildNormalized({ ...session, vendors }) };
-  updateSession(next);
-  return NextResponse.json({ vendor, session: next });
+  if (session.lines.length === 0) return NextResponse.json({ error: "Create the RFx first" }, { status: 400 });
+  try {
+    const files: InputFile[] = await Promise.all(
+      uploads.map(async (f, i) => ({ name: f.name, role: i === 0 ? ("response" as const) : ("attachment" as const), buffer: Buffer.from(await f.arrayBuffer()) }))
+    );
+    const id = vendorName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "vendor";
+    const vendor = await ingestVendor(session, { id, name: vendorName }, files);
+    session.vendors = [...session.vendors.filter((v) => v.vendorId !== id), vendor];
+    session.normalized = rebuildNormalized(session);
+    return NextResponse.json(viewSession(session));
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: e instanceof LlmUnavailableError ? 503 : 500 });
+  }
 }

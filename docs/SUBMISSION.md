@@ -1,80 +1,30 @@
-# How to submit to Aerchain (reply to their email)
+# Submission checklist
 
-Aerchain asked for **four things** (live link appears twice — send it once):
+Aerchain asked for: a working prototype for a live demo, a recorded walkthrough of the analyst conversation, and a one-page note. Send:
 
-1. **Recorded video** (Loom or Google Drive)  
-2. **Live link** to your build  
-3. **Document / PPT** detailing what you built  
-4. **Link where build is hosted** (= same as #2)
+1. **Live build** (hosted URL, or run locally and screen-share) — set `GEMINI_API_KEY` on the host; cap spend and put it behind a password if public.
+2. **Recorded walkthrough** — follow `docs/WALKTHROUGH.md`.
+3. **One-page note** — `docs/DECISIONS.md`.
+4. Optional: repo link.
 
-They did **not** require a GitHub link in the email—but **include repo** if you have one; it helps review.
+## Before you send
+- [ ] Fresh clone: `npm install`, add `.env.local`, `npm run dev` works.
+- [ ] Full dry run: co-pilot → read all five replies → compare → three analyst questions → *Score vs ground truth*.
+- [ ] Read the "Score vs ground truth" panel: if any error is **wrong and not flagged**, fix or disclose it in the note.
+- [ ] Record the video with one unscripted question.
 
----
-
-## If you demo **live on a call** *and* send async deliverables
-
-| Channel | What to send |
-|---------|----------------|
-| **Email reply (before deadline)** | All four deliverables below—**even if** a live call is scheduled. |
-| **Live call** | Screen-share the **same hosted URL** (not only localhost). Run the script in `docs/WALKTHROUGH.md`. |
-| **Repo** | Optional in email: “Source: https://github.com/…” for engineers who want to dig in. |
-
-**Do not** submit only “we’ll demo live” without video + hosted link—they explicitly asked for **Loom/Drive + live link + document**.
-
----
-
-## Checklist before you hit Send
-
-- [ ] Deploy app → **HTTPS URL** works (Vercel or Render)  
-- [ ] On deployed URL: **Load all 5 demo vendor files** → Compare → Analyst (test once)  
-- [ ] Record **5–8 min** Loom using `docs/WALKTHROUGH.md`  
-- [ ] Upload video to **Loom** or **Google Drive** (anyone with link can view)  
-- [ ] Turn `docs/WHAT_WE_BUILT.md` into **PDF or Google Slides** (9 slides)  
-- [ ] Optional: attach `docs/DECISIONS.md` as appendix  
-
----
-
-## Suggested reply email (copy/edit)
-
+## Reply email (edit)
 **Subject:** Aerchain PM Assignment — Charu Jain — Kill the Quote Spreadsheet
 
-Dear [Recruiter name],
+Hi [name],
 
-Please find my submission for the Product take-home assignment (**Kill the Quote Spreadsheet**):
+My submission for *Kill the Quote Spreadsheet*:
+1. Live build: [url]
+2. Walkthrough (analyst conversation): [loom/drive link]
+3. One-page note: [link or attached]
+Source: [repo link, optional]
 
-1. **Live build:** https://[your-app].vercel.app  
-2. **Walkthrough video:** https://[loom-or-drive-link]  
-3. **What I built (document):** https://[drive-pdf-or-slides-link]  
-   — or attached PDF  
+The model reads each vendor reply in its original form (spreadsheet, PDF, Word, a phone photo, a one-line email) and extracts it with evidence; unit, currency and totals are deterministic code; the analyst is a tool-calling agent that shows how much of any answer rests on numbers the buyer hasn't confirmed. Happy to drive a live demo whenever suits.
 
-**Summary:** Corrugated packaging RFx (30 lines, 5 vendors). The app ingests messy vendor files (Excel/PDF/Word/rate card/email), normalizes to a single comparison grid with confidence and provenance, and supports natural-language analysis including split award with a quality questionnaire gate—with CSV exports for audit.
-
-**Source code (optional):** https://github.com/[you]/[repo]
-
-Happy to walk through live on a call. Please let me know if you need anything else.
-
-Best regards,  
-Charu Jain  
-[Phone optional]
-
----
-
-## Deploy quick reference
-
-**Vercel:** Import GitHub repo → Deploy → copy `.vercel.app` URL.  
-**Render:** Web service → Build `npm install && npm run build` → Start `npm start` → copy `.onrender.com` URL.
-
-After deploy, run through ingest + analyst once; if session resets, click **Load all 5** again before analyst questions (in-memory session on serverless).
-
----
-
-## What *you* still do (not in repo)
-
-| Deliverable | Owner |
-|-------------|--------|
-| Loom / Drive **video** | You record |
-| **Hosted URL** | You deploy |
-| **PPT/PDF** from `WHAT_WE_BUILT.md` | You export |
-| Reply **email** | You send |
-
-The codebase covers the **prototype** + **scripts/docs**; it does not replace video or hosting.
+Best,
+Charu Jain

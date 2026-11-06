@@ -1,78 +1,43 @@
 import type { DemoSession } from "@/lib/types";
-import { computeSplitAwardCheapestQualified } from "@/lib/normalize";
-import { isQuestionnaireQualified } from "@/lib/types";
+import { computeAward, type AwardOptions } from "@/lib/award";
+import { allGates } from "@/lib/qualify";
+import { FLAG_LABELS } from "@/lib/normalize";
 
-function escapeCsv(value: string | number | null | undefined): string {
+function esc(value: string | number | null | undefined): string {
   const s = value == null ? "" : String(value);
-  if (/[",\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
-  return s;
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
+const row = (cells: (string | number | null | undefined)[]) => cells.map(esc).join(",");
 
-export function comparisonMatrixCsv(session: DemoSession): string {
-  const header = [
-    "line_id",
-    "sku",
-    "description",
-    ...session.vendors.flatMap((v) => [
-      `${v.vendorId}_inr_per_box`,
-      `${v.vendorId}_confidence`,
-      `${v.vendorId}_flags`,
-    ]),
-  ];
-  const lines = [header.join(",")];
-  for (const line of session.lines) {
-    const row: (string | number)[] = [line.lineId, line.sku, line.description];
-    for (const v of session.vendors) {
-      const cell = session.normalized.find((c) => c.lineId === line.lineId && c.vendorId === v.vendorId);
-      row.push(
-        cell?.unitPriceInr ?? "",
-        cell?.quoted ? cell.confidence.toFixed(2) : "",
-        cell?.flags.join(";") ?? (cell?.quoted ? "" : "missing_line")
-      );
+export function comparisonCsv(s: DemoSession): string {
+  const header = ["line_id", "sku", "description", "annual_qty", "target_inr", ...s.vendors.flatMap((v) => [`${v.vendorId}_net_inr`, `${v.vendorId}_status`, `${v.vendorId}_confidence`, `${v.vendorId}_flags`, `${v.vendorId}_evidence`])];
+  const out = [row(header)];
+  for (const l of s.lines) {
+    const r: (string | number | null)[] = [l.lineId, l.sku, l.description, l.qty, l.targetInrPerBox];
+    for (const v of s.vendors) {
+      const c = s.normalized.find((x) => x.lineId === l.lineId && x.vendorId === v.vendorId);
+      r.push(c?.netInr ?? "", c?.status ?? "", c ? c.confidence.toFixed(2) : "", c?.flags.map((f) => FLAG_LABELS[f]).join("; ") ?? "", c?.evidence ?? "");
     }
-    lines.push(row.map(escapeCsv).join(","));
+    out.push(row(r));
   }
-  return lines.join("\n");
+  return out.join("\n");
 }
 
-export function questionnaireCsv(session: DemoSession): string {
-  const header = ["vendor_id", "vendor_name", "iso9001", "brcgs", "moisture_report", "audit_score", "quality_gate"];
-  const rows = [header.join(",")];
-  for (const v of session.vendors) {
-    const q = v.questionnaire;
-    rows.push(
-      [
-        v.vendorId,
-        v.vendorName,
-        q.iso9001 ? "Yes" : "No",
-        q.brcgs ? "Yes" : "No",
-        q.moistureReport ? "Yes" : "No",
-        q.auditScore,
-        isQuestionnaireQualified(q) ? "PASS" : "FAIL",
-      ]
-        .map(escapeCsv)
-        .join(",")
-    );
+export function questionnaireCsv(s: DemoSession): string {
+  const out = [row(["vendor", "gate", "question", "answer", "verdict", "note", "evidence"])];
+  for (const g of allGates(s)) {
+    const name = s.vendors.find((v) => v.vendorId === g.vendorId)?.vendorName;
+    for (const q of g.questions) out.push(row([name, g.status, q.text, q.answer, q.verdict, q.note, q.evidence]));
   }
-  return rows.join("\n");
+  return out.join("\n");
 }
 
-export function splitAwardCsv(session: DemoSession, onlyQualified: boolean): string {
-  const split = computeSplitAwardCheapestQualified(session, onlyQualified);
-  const header = ["line_id", "sku", "vendor_id", "vendor_name", "inr_per_box", "annual_qty", "line_spend_inr"];
-  const rows = [header.join(",")];
-  for (const r of split.rows) {
-    const line = session.lines.find((l) => l.lineId === r.lineId);
-    const qty = line?.qty ?? 0;
-    const spend = r.unitPriceInr * qty;
-    rows.push(
-      [r.lineId, r.sku, r.vendorId, r.vendorName, r.unitPriceInr.toFixed(2), qty, Math.round(spend)]
-        .map(escapeCsv)
-        .join(",")
-    );
-  }
-  rows.push("");
-  rows.push(escapeCsv("total_estimated_spend_inr"), escapeCsv(split.totalInr));
-  rows.push(escapeCsv("lines_without_qualified_quote"), escapeCsv(split.skipped.join("; ")));
-  return rows.join("\n");
+export function awardCsv(s: DemoSession, o: AwardOptions): string {
+  const a = computeAward(s, o);
+  const out = [row(["line_id", "sku", "vendor", "annual_qty", "unit_price_inr", "spend_inr", "cell_status", "runner_up", "saving_vs_runner_up_inr"])];
+  for (const x of a.allocations) out.push(row([x.lineId, x.sku, x.vendorName, x.qty, x.unitPriceInr.toFixed(2), Math.round(x.spendInr), x.cellStatus, x.runnerUpVendor, x.savingVsRunnerUpInr == null ? "" : Math.round(x.savingVsRunnerUpInr)]));
+  out.push("", row(["TOTAL_INR", a.totalInr]), row(["LINES_AWARDED", `${a.coverage.linesAwarded}/${a.coverage.linesTotal}`]), row(["SPEND_ON_UNCONFIRMED_CELLS_INR", a.spendOnUnconfirmedCellsInr]));
+  for (const c of a.caveats) out.push(row(["CAVEAT", c]));
+  for (const e of a.excludedVendors) out.push(row(["EXCLUDED", e.vendorName, e.reason]));
+  return out.join("\n");
 }

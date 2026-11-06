@@ -1,66 +1,79 @@
 import rfxLines from "@/data/rfx-lines.json";
-import type { DemoSession, RfxLine } from "./types";
+import type { DemoSession, QuestionDef, RfxDraft, RfxLine } from "./types";
+import { DEFAULT_FX_USD_INR } from "./types";
 
-const lines = rfxLines as RfxLine[];
+/** The buyer's item master: everything the co-pilot may put on an RFx. */
+export const ITEM_MASTER = rfxLines as RfxLine[];
 
-export function createInitialSession(): DemoSession {
-  const lastYearInr: Record<string, number> = {};
-  for (const l of lines) {
-    lastYearInr[l.lineId] = Math.round(l.targetInrPerBox * 1.02 * 100) / 100;
-  }
+export const DEFAULT_QUESTIONNAIRE: QuestionDef[] = [
+  { id: "q_iso", text: "Is your ISO 9001 certificate current? (attach it)", type: "yesno", gate: { required: true } },
+  { id: "q_brcgs", text: "Are you BRCGS Packaging Materials certified?", type: "yesno", gate: { required: true } },
+  { id: "q_moisture", text: "Do you provide a moisture test report? (attach it)", type: "yesno", gate: { required: true } },
+  { id: "q_audit", text: "Score of your last third-party quality audit (0–100)", type: "number", gate: { required: true, min: 80 } },
+];
+
+export function emptyRfx(): RfxDraft {
   return {
     rfxId: "CORR-2026-118",
-    title: "Corrugated packaging program — Bangalore DC (30 SKUs)",
-    lines,
-    vendors: [],
-    normalized: [],
-    lastYearInr,
+    title: "",
+    category: "Corrugated packaging",
+    issuedOn: "2026-11-02",
+    responseDueDate: "2026-11-11",
+    lineIds: [],
+    qtyOverrides: {},
+    questionnaire: [],
+    terms: {
+      currency: "INR",
+      deliveryLocation: "",
+      paymentDays: 45,
+      incoterm: "DAP",
+      validityDays: 30,
+    },
+    status: "draft",
   };
 }
 
-let session: DemoSession = createInitialSession();
+export function linesForRfx(rfx: RfxDraft): RfxLine[] {
+  return rfx.lineIds
+    .map((id) => ITEM_MASTER.find((l) => l.lineId === id))
+    .filter((l): l is RfxLine => !!l)
+    .map((l) => ({ ...l, qty: rfx.qtyOverrides[l.lineId] ?? l.qty }));
+}
+
+export function createInitialSession(): DemoSession {
+  return {
+    rfx: emptyRfx(),
+    lines: [],
+    vendors: [],
+    normalized: [],
+    buyerActions: {},
+    fxUsdInr: DEFAULT_FX_USD_INR,
+    copilotMessages: [],
+    copilotTranscript: [],
+    analystTranscript: [],
+  };
+}
+
+// Survive Next.js dev hot-reloads: module-level state is re-created on every HMR, a global is not.
+const g = globalThis as unknown as { __quoteSession?: DemoSession };
 
 export function getSession(): DemoSession {
-  return session;
+  if (!g.__quoteSession) g.__quoteSession = createInitialSession();
+  return g.__quoteSession;
 }
 
 export function resetSession(): DemoSession {
-  session = createInitialSession();
-  return session;
+  g.__quoteSession = createInitialSession();
+  return g.__quoteSession;
 }
 
 export function updateSession(next: DemoSession): DemoSession {
-  session = next;
-  return session;
+  g.__quoteSession = next;
+  return next;
 }
 
-export const COPILOT_SEED_PROMPT =
-  "Need 30-line corrugated RFx for Bangalore DC: beverage trays, e-com shippers, export cartons. Include quality questionnaire (ISO, BRCGS, moisture, audit score).";
-
-export const COPILOT_REPLY =
-  "Draft RFx CORR-2026-118 is ready: 30 SKUs with specs, annual qty, target currency INR, and supplier questionnaire. You can edit lines or send to vendors.";
-
-export type CopilotTurn = { role: "buyer" | "copilot"; text: string };
-
-export const COPILOT_TURNS: CopilotTurn[] = [
-  { role: "buyer", text: COPILOT_SEED_PROMPT },
-  {
-    role: "copilot",
-    text: "Understood. Confirming: currency INR, Bangalore DC delivery, quality gate for award scenarios — ISO 9001, BRCGS food-grade liner, moisture test report, audit score ≥ 80. Standard terms 45-day payment?",
-  },
-  {
-    role: "buyer",
-    text: "Yes — INR, that quality gate, 45-day payment. Add annual qty estimates per SKU; we expect messy quotes back (Excel, PDF, email).",
-  },
-  {
-    role: "copilot",
-    text: `${COPILOT_REPLY} Payment 45 days. Questionnaire embedded in RFx pack. Ready to send to shortlisted vendors.`,
-  },
-];
-
-export const RFx_QUESTIONNAIRE_TERMS = [
-  "ISO 9001 certified",
-  "BRCGS food-grade liner (where applicable)",
-  "Moisture test report provided",
-  "Last audit score ≥ 80 for split-award eligibility",
-];
+/** Re-derive lines from the RFx draft. Called whenever the co-pilot edits the draft. */
+export function syncLines(session: DemoSession): DemoSession {
+  session.lines = linesForRfx(session.rfx);
+  return session;
+}

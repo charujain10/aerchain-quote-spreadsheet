@@ -1,5 +1,8 @@
+// Generates the fabricated vendor replies AND the ground truth they were generated from.
+// The ground truth is what lets the app score its own extraction (see /api/eval).
 import fs from "fs";
 import path from "path";
+import { execFileSync } from "child_process";
 import { fileURLToPath } from "url";
 import XLSX from "xlsx";
 import PDFDocument from "pdfkit";
@@ -7,173 +10,221 @@ import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, Width
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.join(__dirname, "../public/samples/vendors");
+const dataDir = path.join(__dirname, "../src/data");
 fs.mkdirSync(outDir, { recursive: true });
 
-const lines = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "../src/data/rfx-lines.json"), "utf8")
-);
+const lines = JSON.parse(fs.readFileSync(path.join(dataDir, "rfx-lines.json"), "utf8"));
+const FX = 88; // USD→INR used by the buyer in the demo (editable in the app)
 
-const wb = XLSX.utils.book_new();
-const rows = [
-  ["PackRight Industries — Quotation Ref PR-2026-441"],
-  ["Valid 30 days | Payment: 45 days | Freight: FOR Bangalore"],
-  [],
-  ["S.No", "Our Item Description", "Rate (INR per 100 boxes)", "Lead time"],
-];
-lines.forEach((l, i) => {
-  const rate100 = Math.round(l.targetInrPerBox * 100 * (0.92 + (i % 5) * 0.01));
-  rows.push([i + 1, l.description, rate100, `${12 + (i % 4)} days`]);
-});
-rows.push([]);
-rows.push(["Quality questionnaire (PackRight):"]);
-rows.push(["ISO 9001", "Yes"]);
-rows.push(["BRCGS food-grade liner", "Yes"]);
-rows.push(["Moisture test report attached", "Yes"]);
-rows.push(["Last audit score", "88"]);
-const ws = XLSX.utils.aoa_to_sheet(rows);
-XLSX.utils.book_append_sheet(wb, ws, "Quote");
-XLSX.writeFile(wb, path.join(outDir, "1-packright-off-template.xlsx"));
+// Deterministic noise so the dataset is stable but no vendor wins every line.
+function rng(seed) {
+  let a = seed >>> 0;
+  return () => {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const factor = (seed, mean, spread) => {
+  const r = rng(seed);
+  return lines.map(() => mean + (r() - 0.5) * 2 * spread);
+};
+const shortName = (d) => {
+  const base = d.split(",")[0].toUpperCase().replace(/(\d)-PLY/, "$1 PLY");
+  if (base.length <= 40) return base;
+  const cut = base.slice(0, 40);
+  return cut.slice(0, cut.lastIndexOf(" "));
+};
+const r2 = (n) => Math.round(n * 100) / 100;
+const truth = { fxUsdInr: FX, vendors: {} };
 
-const pdfPath = path.join(outDir, "2-global-carton-letterhead.pdf");
-await new Promise((resolve, reject) => {
-  const doc = new PDFDocument({ margin: 50 });
-  const stream = fs.createWriteStream(pdfPath);
-  doc.pipe(stream);
-  doc.fontSize(18).text("GLOBAL CARTON LLC", { align: "center" });
-  doc.fontSize(10).text("1200 Industrial Blvd, Dallas TX", { align: "center" });
-  doc.moveDown();
-  doc.fontSize(12).text("Commercial Proposal — Corrugated Program FY26");
-  doc.moveDown(0.5);
+// ───────── 1. PackRight — off-template Excel, per-100 with per-1000 overrides ─────────
+{
+  const f = factor(11, 0.97, 0.05);
+  const unitFor = (i) => (["L10", "L24", "L26"].includes(lines[i].lineId) ? 1000 : 100);
+  const vendorName = (l) => l.description.split(",")[0].replace(/(\d)-ply/i, "$1 PLY").toUpperCase();
+  const rows = [
+    ["PackRight Industries Pvt Ltd — Quotation PR-2026-441 (ref your RFx CORR-2026-118)"],
+    ["Valid 30 days from date | Payment: 45 days | Delivery: FOR Bangalore DC, freight included | GST 18% extra"],
+    [],
+    ["S.No", "Our item description", "Rate", "Rate per", "Lead time"],
+  ];
+  const t = {};
   lines.forEach((l, i) => {
-    const usd = (l.targetInrPerBox / 83.5) * (0.95 + (i % 3) * 0.008);
-    doc
-      .fontSize(9)
-      .text(
-        `${String(i + 1).padStart(2, "0")}. ${l.sku} — ${l.description.substring(0, 55)}… — USD ${usd.toFixed(3)}/box`
-      );
+    const unit = unitFor(i);
+    const perUnit = r2(l.targetInrPerBox * f[i]);
+    const rate = Math.round(perUnit * unit);
+    t[l.lineId] = { price: rate / unit, currency: "INR" };
+    rows.push([i + 1, vendorName(l), rate, `per ${unit}`, `${12 + (i % 4)} days`]);
   });
-  doc.moveDown();
-  doc
-    .fontSize(8)
-    .fillColor("gray")
-    .text(
-      "* All prices FOB Dallas. Standard terms apply. Volume discount of 5% will be applied on final invoice for orders above MOQ.",
+  rows.push([], ["Quality questionnaire (PackRight):"], ["ISO 9001 certified", "Yes"], ["BRCGS Packaging Materials", "Yes"], ["Moisture test report", "Yes — available on request"], ["Last third-party audit score", "88"]);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), "Quote");
+  XLSX.writeFile(wb, path.join(outDir, "1-packright-quotation.xlsx"));
+  truth.vendors.packright = { gate: "cleared", lines: t, missing: [] };
+}
+
+// ───────── 2. Global Carton — USD PDF on letterhead, conditional discount in footnote ─────────
+{
+  const f = factor(23, 0.93, 0.05);
+  const t = {};
+  const pdfPath = path.join(outDir, "2-global-carton-proposal.pdf");
+  await new Promise((resolve, reject) => {
+    const doc = new PDFDocument({ margin: 50 });
+    const stream = fs.createWriteStream(pdfPath);
+    doc.pipe(stream);
+    doc.fontSize(18).text("GLOBAL CARTON LLC", { align: "center" });
+    doc.fontSize(10).text("1200 Industrial Blvd, Dallas TX 75207 · export@globalcarton.example", { align: "center" });
+    doc.moveDown();
+    doc.fontSize(12).text("Commercial Proposal — Corrugated Programme FY26 (your ref CORR-2026-118)");
+    doc.fontSize(9).text("Payment: 30% advance, 70% against bill of lading. Prices FOB Dallas, USD per box. Offer valid 45 days.");
+    doc.moveDown(0.5);
+    lines.forEach((l, i) => {
+      const usd = Math.round((l.targetInrPerBox / FX) * f[i] * 1000) / 1000;
+      t[l.lineId] = { price: usd, currency: "USD" };
+      doc.fontSize(9).text(`${String(i + 1).padStart(2, "0")}. ${l.sku}  ${l.description.slice(0, 52)}  —  USD ${usd.toFixed(3)} / box`);
+    });
+    doc.moveDown();
+    doc.fontSize(8).fillColor("gray").text(
+      "* Prices exclude ocean freight, insurance, import duty and clearance. A volume discount of 5% will be credited on the final invoice for orders above our standard MOQ. Standard terms apply.",
       { align: "justify" }
     );
-  doc.fillColor("black");
-  doc.moveDown();
-  doc.fontSize(9).text("Supplier questionnaire: ISO 9001 Yes | BRCGS Yes | Moisture report Yes | Audit score 91");
-  doc.end();
-  stream.on("finish", resolve);
-  stream.on("error", reject);
-});
+    doc.fillColor("black").moveDown();
+    doc.fontSize(9).text("Supplier questionnaire — ISO 9001: Yes (certificate attached). BRCGS Packaging: Yes. Moisture test report: Yes (attached to our quality pack). Last audit score: 91/100.");
+    doc.end();
+    stream.on("finish", resolve);
+    stream.on("error", reject);
+  });
+  truth.vendors.global = { gate: "cleared", lines: t, missing: [] };
+}
 
-const tableRows = [
-  new TableRow({
-    children: [
-      new TableCell({ children: [new Paragraph("Line")] }),
-      new TableCell({ children: [new Paragraph("Commercial (INR/box)")] }),
-    ],
-  }),
-];
-lines.slice(0, 27).forEach((l, i) => {
-  const price = Math.round(l.targetInrPerBox * (1.04 + (i % 7) * 0.005));
-  tableRows.push(
-    new TableRow({
+function certPdf(file, title, lines2) {
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({ margin: 60 });
+    const stream = fs.createWriteStream(path.join(outDir, file));
+    doc.pipe(stream);
+    doc.fontSize(20).text(title, { align: "center" });
+    doc.moveDown();
+    lines2.forEach((x) => doc.fontSize(11).text(x).moveDown(0.3));
+    doc.end();
+    stream.on("finish", resolve);
+    stream.on("error", reject);
+  });
+}
+await certPdf("2b-global-iso9001-certificate.pdf", "Certificate of Registration — ISO 9001:2015", [
+  "This is to certify that the Quality Management System of GLOBAL CARTON LLC, Dallas TX,",
+  "conforms to ISO 9001:2015 for the design and manufacture of corrugated packaging.",
+  "Certificate no. QMS-77120 · Issued 2024-08-15 · Valid until 2027-08-14",
+  "Certification body: Apex Assurance",
+]);
+await certPdf("3b-southern-iso9001-certificate.pdf", "Certificate of Registration — ISO 9001:2015", [
+  "This is to certify that the Quality Management System of SOUTHERN BOARD MILLS PVT LTD, Coimbatore,",
+  "conforms to ISO 9001:2015 for the manufacture of corrugated board and cartons.",
+  "Certificate no. IN-QMS-40215 · Issued 2023-04-01 · Valid until 2026-03-31",
+  "Certification body: Bharat Quality Registrar",
+]);
+await certPdf("5b-quickpack-moisture-test-report.pdf", "Moisture Content Test Report", [
+  "Client: QuickPack Industries · Material: 5-ply & 3-ply corrugated board, kraft liner",
+  "Method: oven-dry (IS 1060) · Samples tested: 12 · Result: 7.6% mean moisture (limit 9%)",
+  "Test date: 2026-10-20 · Lab: Southern Packaging Test Laboratory",
+]);
+
+// ───────── 3. Southern Board — Word prose, 27/30 lines, a spec deviation, expired ISO ─────────
+{
+  const f = factor(37, 1.03, 0.04);
+  const t = {};
+  const rowsT = [new TableRow({ children: [new TableCell({ children: [new Paragraph("Item")] }), new TableCell({ children: [new Paragraph("Commercial (INR per box)")] })] })];
+  lines.slice(0, 27).forEach((l, i) => {
+    let price = r2(l.targetInrPerBox * f[i]);
+    let label = `${l.sku}: ${l.description}`;
+    if (l.lineId === "L05") {
+      // Spec deviation: cheaper because it is a different (5-ply) construction.
+      price = r2(l.targetInrPerBox * 0.78);
+      label = `${l.sku}: 5-ply heavy-duty export crate insert 1200x800mm (our standard heavy-duty construction)`;
+    }
+    t[l.lineId] = { price, currency: "INR" };
+    rowsT.push(new TableRow({ children: [new TableCell({ children: [new Paragraph(label)] }), new TableCell({ children: [new Paragraph(`Rs. ${price.toFixed(2)}`)] })] }));
+  });
+  const para = (text, bold = false) => new Paragraph({ children: [new TextRun({ text, bold })] });
+  const doc = new Document({
+    sections: [{
       children: [
-        new TableCell({ children: [new Paragraph(`${l.sku}: ${l.description}`)] }),
-        new TableCell({ children: [new Paragraph(`Rs. ${price}`)] }),
+        para("Southern Board Mills Pvt Ltd, Coimbatore", true),
+        para("Thank you for the opportunity to quote against RFx CORR-2026-118. Our offer is set out below. Prices are per box, ex-works Coimbatore; freight extra to your Bangalore DC at actuals. Payment 60 days from invoice. GST as applicable. Validity 30 days."),
+        para("For item 5 (7-ply heavy-duty export crate insert) we propose our standard 5-ply heavy-duty construction, which has performed well in comparable export applications; kindly confirm acceptability."),
+        para("Commercial summary:", true),
+        new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: rowsT }),
+        para("Items 28, 29 and 30 are under review pending flute availability; we will confirm within 48 hours."),
+        para("Quality: we are ISO 9001 certified (certificate attached), BRCGS Packaging Materials certified, and can share our moisture test report. Our last audit score was 84."),
       ],
-    })
-  );
-});
-const wordDoc = new Document({
-  sections: [
-    {
-      children: [
-        new Paragraph({
-          children: [new TextRun({ text: "Southern Board Mills Pvt Ltd", bold: true, size: 28 })],
-        }),
-        new Paragraph({
-          children: [
-            new TextRun(
-              "Thank you for your RFx. We are pleased to offer the following. Freight extra to your Bangalore DC as discussed."
-            ),
-          ],
-        }),
-        new Paragraph({ children: [new TextRun("Commercial summary:")] }),
-        new Table({ width: { size: 100, type: WidthType.PERCENTAGE }, rows: tableRows }),
-        new Paragraph({
-          children: [
-            new TextRun(
-              "Note: Lines 28–30 under review pending flute availability; we will confirm within 48 hours."
-            ),
-          ],
-        }),
-        new Paragraph({
-          children: [new TextRun("Quality: ISO certified, BRCGS yes, moisture report shared, audit score 84.")],
-        }),
-      ],
-    },
-  ],
-});
-const wordBuf = await Packer.toBuffer(wordDoc);
-fs.writeFileSync(path.join(outDir, "3-southern-board-prose.docx"), wordBuf);
+    }],
+  });
+  fs.writeFileSync(path.join(outDir, "3-southern-board-offer.docx"), await Packer.toBuffer(doc));
+  truth.vendors.southern = { gate: "conflict", lines: t, missing: ["L28", "L29", "L30"] };
+}
 
-const svg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200">
-  <rect width="100%" height="100%" fill="#f4f0e8"/>
-  <g transform="rotate(-4 450 600)">
-  <text x="40" y="60" font-family="monospace" font-size="28" fill="#222">DESIPACK CO — RATE CARD</text>
-  <text x="40" y="100" font-size="18" fill="#444">Photocopy — Nov 2026</text>
-  ${lines
-    .slice(0, 28)
-    .map((l, i) => {
-      const p = Math.round(l.targetInrPerBox * 0.89);
-      return `<text x="40" y="${140 + i * 38}" font-size="16" fill="#111">${l.sku} ${p}/box</text>`;
-    })
-    .join("\n")}
-  <text x="40" y="1180" font-size="14" fill="#666">Audit score 72 — moisture report pending</text>
-  </g>
-</svg>`;
-fs.writeFileSync(path.join(outDir, "4-desipack-rate-card.svg"), svg);
+// ───────── 4. DesiPack — photo of a printed rate card (28 lines, skewed) ─────────
+{
+  const f = factor(53, 0.9, 0.04);
+  const t = {};
+  const rows = [];
+  lines.slice(0, 28).forEach((l, i) => {
+    const price = r2(l.targetInrPerBox * f[i]);
+    t[l.lineId] = { price, currency: "INR" };
+    rows.push({ name: shortName(l.description), price: price.toFixed(2) });
+  });
+  fs.writeFileSync(path.join(__dirname, "_ratecard.json"), JSON.stringify({ rows, out: path.join(outDir, "4-desipack-ratecard-photo.jpg") }));
+  try {
+    execFileSync("python3", [path.join(__dirname, "make-ratecard-photo.py"), path.join(__dirname, "_ratecard.json")], { stdio: "inherit" });
+  } catch (e) {
+    console.warn("Could not render the rate-card photo (needs python3 + Pillow). Existing file, if any, is kept.", e.message);
+  }
+  fs.rmSync(path.join(__dirname, "_ratecard.json"), { force: true });
+  truth.vendors.desipack = { gate: "failed", lines: t, missing: ["L29", "L30"] };
+}
 
-const emailLines = lines.map((l, i) => {
-  if (i === 0) return `${l.sku}: ₹${42}/kg for 5-ply beverage master (convert to box at 0.95 kg)`;
-  if (i === 1) return `${l.sku}: ₹${38}/kg for 3-ply e-com shipper (0.42 kg/box)`;
-  if (i < 10) return `${l.sku}: same as last year (see baseline)`;
-  return `${l.sku}: ₹${Math.round(l.targetInrPerBox * (0.97 + (i % 4) * 0.01))}/box`;
-});
-const email = `From: quotes@quickpack.in
-Subject: RE: RFx CORR-2026-118 — corrugated
+// ───────── 5. QuickPack — the brief's one-line email, nothing more ─────────
+{
+  const t = {};
+  for (const l of lines) {
+    if (l.plies === 5) t[l.lineId] = { price: 42 * l.weightKg, currency: "INR" };
+    else if (l.plies === 3) t[l.lineId] = { price: 38 * l.weightKg, currency: "INR" };
+    else t[l.lineId] = { price: l.lastPaidInr, currency: "INR" }; // "rest same as last year"
+  }
+  const email = `From: Vikram Rao <sales@quickpack.example>
+To: procurement@buyer.example
+Subject: RE: RFx CORR-2026-118 — corrugated packaging
 
 Hi team,
 
-₹42/kg for the 5-ply, ₹38 for the 3-ply, rest same as last year, freight extra.
+₹42/kg for the 5-ply, 38 for the 3-ply, rest same as last year, freight extra.
 
-Detail:
-${emailLines.join("\n")}
+Valid till month end, payment 30 days, GST 18% extra as usual.
 
-Quality: ISO yes, BRCGS no, moisture yes, audit 79.
+On quality: ISO 9001 we have. BRCGS not yet, audit planned for Q1. Moisture test report attached. Last audit came in at 79.
 
 Regards,
-QuickPack
+Vikram Rao
+QuickPack Industries
 `;
-fs.writeFileSync(path.join(outDir, "5-quickpack-email.txt"), email);
+  fs.writeFileSync(path.join(outDir, "5-quickpack-email.txt"), email);
+  truth.vendors.quickpack = { gate: "failed", lines: t, missing: [] };
+}
 
 fs.writeFileSync(
   path.join(outDir, "manifest.json"),
   JSON.stringify(
     [
-      { id: "packright", file: "1-packright-off-template.xlsx", name: "PackRight Industries", currency: "INR" },
-      { id: "global", file: "2-global-carton-letterhead.pdf", name: "Global Carton LLC", currency: "USD" },
-      { id: "southern", file: "3-southern-board-prose.docx", name: "Southern Board Mills", currency: "INR" },
-      { id: "desipack", file: "4-desipack-rate-card.svg", name: "DesiPack Co", currency: "INR" },
-      { id: "quickpack", file: "5-quickpack-email.txt", name: "QuickPack", currency: "INR" },
+      { id: "packright", name: "PackRight Industries", received: "Day 2", subject: "Quotation PR-2026-441", note: "Excel that ignores the template", files: [{ file: "1-packright-quotation.xlsx", role: "response" }] },
+      { id: "global", name: "Global Carton LLC", received: "Day 4", subject: "Commercial Proposal FY26", note: "PDF on letterhead, USD, discount in a footnote", files: [{ file: "2-global-carton-proposal.pdf", role: "response" }, { file: "2b-global-iso9001-certificate.pdf", role: "attachment" }] },
+      { id: "southern", name: "Southern Board Mills", received: "Day 6", subject: "Our offer — CORR-2026-118", note: "Word doc, commercials in a table and a paragraph", files: [{ file: "3-southern-board-offer.docx", role: "response" }, { file: "3b-southern-iso9001-certificate.pdf", role: "attachment" }] },
+      { id: "desipack", name: "DesiPack Co", received: "Day 8", subject: "Rate card (photo)", note: "Phone photo of a printed rate card, taken at an angle", files: [{ file: "4-desipack-ratecard-photo.jpg", role: "response" }] },
+      { id: "quickpack", name: "QuickPack", received: "Day 9", subject: "RE: RFx CORR-2026-118", note: "One email: “₹42/kg for the 5-ply, 38 for the 3-ply, rest same as last year, freight extra.”", files: [{ file: "5-quickpack-email.txt", role: "response" }, { file: "5b-quickpack-moisture-test-report.pdf", role: "attachment" }] },
     ],
     null,
     2
   )
 );
-
-console.log("Generated vendor samples in", outDir);
+fs.writeFileSync(path.join(dataDir, "ground-truth.json"), JSON.stringify(truth, null, 2));
+console.log("Generated vendor samples + ground truth.");

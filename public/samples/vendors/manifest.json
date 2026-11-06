@@ -1,32 +1,79 @@
 [
   {
     "id": "packright",
-    "file": "1-packright-off-template.xlsx",
     "name": "PackRight Industries",
-    "currency": "INR"
+    "received": "Day 2",
+    "subject": "Quotation PR-2026-441",
+    "note": "Excel that ignores the template",
+    "files": [
+      {
+        "file": "1-packright-quotation.xlsx",
+        "role": "response"
+      }
+    ]
   },
   {
     "id": "global",
-    "file": "2-global-carton-letterhead.pdf",
     "name": "Global Carton LLC",
-    "currency": "USD"
+    "received": "Day 4",
+    "subject": "Commercial Proposal FY26",
+    "note": "PDF on letterhead, USD, discount in a footnote",
+    "files": [
+      {
+        "file": "2-global-carton-proposal.pdf",
+        "role": "response"
+      },
+      {
+        "file": "2b-global-iso9001-certificate.pdf",
+        "role": "attachment"
+      }
+    ]
   },
   {
     "id": "southern",
-    "file": "3-southern-board-prose.docx",
     "name": "Southern Board Mills",
-    "currency": "INR"
+    "received": "Day 6",
+    "subject": "Our offer — CORR-2026-118",
+    "note": "Word doc, commercials in a table and a paragraph",
+    "files": [
+      {
+        "file": "3-southern-board-offer.docx",
+        "role": "response"
+      },
+      {
+        "file": "3b-southern-iso9001-certificate.pdf",
+        "role": "attachment"
+      }
+    ]
   },
   {
     "id": "desipack",
-    "file": "4-desipack-rate-card.svg",
     "name": "DesiPack Co",
-    "currency": "INR"
+    "received": "Day 8",
+    "subject": "Rate card (photo)",
+    "note": "Phone photo of a printed rate card, taken at an angle",
+    "files": [
+      {
+        "file": "4-desipack-ratecard-photo.jpg",
+        "role": "response"
+      }
+    ]
   },
   {
     "id": "quickpack",
-    "file": "5-quickpack-email.txt",
     "name": "QuickPack",
-    "currency": "INR"
+    "received": "Day 9",
+    "subject": "RE: RFx CORR-2026-118",
+    "note": "One email: “₹42/kg for the 5-ply, 38 for the 3-ply, rest same as last year, freight extra.”",
+    "files": [
+      {
+        "file": "5-quickpack-email.txt",
+        "role": "response"
+      },
+      {
+        "file": "5b-quickpack-moisture-test-report.pdf",
+        "role": "attachment"
+      }
+    ]
   }
 ]

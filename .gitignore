@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local secrets (never commit)
+.env*.local
+.env
+!.env.example
+# NOTE: /.cache/extract IS committed on purpose: it holds saved model reads of the fabricated sample vendors,
+# so the hosted demo does not spend a free-tier quota on every click. Delete it to force fresh model calls.
